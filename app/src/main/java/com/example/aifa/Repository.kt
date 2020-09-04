@@ -1,15 +1,10 @@
 package com.example.aifa
 
 import android.content.Context
-import android.os.AsyncTask
-import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.aifa.database.Fund
 import com.example.aifa.database.FundDatabase
-import com.example.aifa.database.Out
-import java.text.DecimalFormat
 import java.util.concurrent.Executors
-import kotlin.math.abs
 
 private const val DATABASE_NAME = "fund-database"
 
@@ -40,7 +35,6 @@ class Repository private constructor(context: Context) {
     fun getLiveFunds() = fundDao.getLiveFunds()
     fun getLiveFund(id: String) = fundDao.getLiveFund(id)
     fun getFunds() = fundDao.getFunds()
-    //fun getLiveOut() = fundDao.getLiveOut()
     fun getSumWave()=fundDao.getSumWave()
 
     fun updateFund(fund: Fund) {
@@ -60,26 +54,5 @@ class Repository private constructor(context: Context) {
             fundDao.addFund(fund)
         }
     }
-
-    /*fun addOut(out: Out) {
-        executor.execute {
-            fundDao.addOut(out)
-        }
-    }
-    fun getAbs(): String {
-        val list = getFunds()
-        val dec= DecimalFormat("0.00")
-        var a=0.0
-        for (f in list) {
-            a += abs(f.wave)
-        }
-        return dec.format(a).toString()
-    }
-
-    fun updateOut(out: Out) {
-        executor.execute {
-            fundDao.updateOut(out)
-        }
-    }*/
 
 }

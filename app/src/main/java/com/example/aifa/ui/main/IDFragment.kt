@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.aifa.Repository
 import com.example.aifa.R
-import com.example.aifa.database.Fund
 import com.example.aifa.fund
 
 class IDFragment : DialogFragment() {

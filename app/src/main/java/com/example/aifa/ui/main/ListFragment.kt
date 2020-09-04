@@ -55,8 +55,12 @@ class ListFragment : Fragment() {
                     for (f in fundList) {
                         val part = abs(f.wave) / abso
                         val factor = init["favor"]!!.toFloat() * (1 - f.wave / 100) * part
-                        val invest = init["property"]!!.toFloat() * factor * f.weight
-                        val everyday = invest / init["period"]!!.toInt()
+                        var invest=0.0
+                        var everyday=0.0
+                        if (f.wave < -5 && f.weight > 0.5) {
+                            invest = init["property"]!!.toFloat() * factor * f.weight
+                            everyday = invest / init["period"]!!.toInt()
+                        }
                         val out = Out(f.id, part, factor, invest, everyday)
                         outList.add(out)
                         sumInvest += invest
