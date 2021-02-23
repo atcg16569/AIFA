@@ -12,7 +12,6 @@ import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
-import java.io.IOException
 
 fun notice(title: String, text: String, context: Context) {
     val CHANNEL_ID = "FUND"
@@ -34,7 +33,7 @@ fun notice(title: String, text: String, context: Context) {
     NotificationManagerCompat.from(context).notify(1024, builder)
 }
 
-fun fund(id: String): Fund {
+/*fun fund(id: String): Fund {
     val doc = Jsoup.connect("http://fund.eastmoney.com/$id.html")
         .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0")
         .get()
@@ -86,7 +85,7 @@ fun fund(id: String): Fund {
         weight
     )
 }
-
+ */
 fun loadFund(context: Context,id: String): Fund? {
     //var waveUrl: String
     //var valueUrl: String

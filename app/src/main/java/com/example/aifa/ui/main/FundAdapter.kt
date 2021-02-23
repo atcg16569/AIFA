@@ -4,13 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.aifa.R
 import com.example.aifa.Repository
 import com.example.aifa.database.Fund
 import com.example.aifa.databinding.FundItemBinding
-import kotlinx.android.synthetic.main.fund_item.view.*
 import java.text.DecimalFormat
 
 
@@ -23,12 +20,29 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
             itemBinding.name.text = fund.name
             itemBinding.wave.text = dec.format(fund.wave).toString()
             itemBinding.weight.text = dec.format(fund.weight).toString()
+            val switch=itemBinding.switch1
             if (fund.status == 0) {
-                itemBinding.switch1.text = "pause"
-                itemBinding.switch1.isChecked = false
+                switch.text = "pause"
+                switch.isChecked = false
             } else {
-                itemBinding.switch1.text = "start"
-                itemBinding.switch1.isChecked = true
+                switch.text = "start"
+                switch.isChecked = true
+            }
+            itemBinding.root.setOnClickListener {
+                if (switch.isVisible) {
+                    switch.visibility = View.GONE
+                } else {
+                    switch.visibility = View.VISIBLE
+                }
+            }
+            switch.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    fund.status = 1
+                    Repository.get().updateFund(fund)
+                } else {
+                    fund.status = 0
+                    Repository.get().updateFund(fund)
+                }
             }
         }
     }
@@ -42,9 +56,8 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
      */
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FundHolder {
-        val binding: FundItemBinding = DataBindingUtil.inflate(
+        val binding: FundItemBinding = FundItemBinding.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.fund_item,
             parent,
             false
         )
@@ -54,22 +67,6 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
     override fun onBindViewHolder(holder: FundHolder, position: Int) {
         val fund = funds[position]
         holder.bind(fund)
-        holder.itemView.switch1.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                fund.status = 1
-                Repository.get().updateFund(fund)
-            } else {
-                fund.status = 0
-                Repository.get().updateFund(fund)
-            }
-        }
-        holder.itemView.setOnClickListener {
-            if (it.switch1.isVisible) {
-                it.switch1.visibility = View.GONE
-            } else {
-                it.switch1.visibility = View.VISIBLE
-            }
-        }
     }
 
     override fun getItemCount() = funds.size

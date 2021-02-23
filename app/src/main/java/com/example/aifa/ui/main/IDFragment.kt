@@ -2,8 +2,6 @@ package com.example.aifa.ui.main
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
 import android.os.AsyncTask
 import android.os.Bundle
 import android.widget.EditText
@@ -11,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.aifa.Repository
 import com.example.aifa.R
-import com.example.aifa.fund
 import com.example.aifa.loadFund
 
 class IDFragment : DialogFragment() {
