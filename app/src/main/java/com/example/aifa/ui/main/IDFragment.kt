@@ -2,6 +2,7 @@ package com.example.aifa.ui.main
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.AsyncTask
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.example.aifa.Repository
 import com.example.aifa.R
 import com.example.aifa.fund
+import com.example.aifa.loadFund
 
 class IDFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -26,7 +28,7 @@ class IDFragment : DialogFragment() {
                 } else {
                     val repository = Repository.get()
                     repository.getLiveFund(id).observe(
-                        this, androidx.lifecycle.Observer {
+                        this, {
                             if (it != null) {
                                 Toast.makeText(
                                     context,
@@ -36,7 +38,14 @@ class IDFragment : DialogFragment() {
                             } else {
                                 class FundAsync : AsyncTask<String, Unit, Unit>() {
                                     override fun doInBackground(vararg params: String) {
-                                        repository.addFund(fund(params[0]))
+                                        val result =
+                                            loadFund(requireContext(), params[0])
+                                        if (result != null) {
+                                            repository.addFund(result)
+                                        } else {
+                                            Toast.makeText(context, "Exception", Toast.LENGTH_LONG)
+                                                .show()
+                                        }
                                     }
                                 }
                                 FundAsync().execute(id)

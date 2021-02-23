@@ -15,20 +15,37 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) : Wor
         if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
             val repository = Repository.get()
             val funds = repository.getFunds()
-            funds.forEach {
-                if (it.status==1){
-                    val newIt = fund(it.id)
-                    repository.updateFund(newIt)
-                }
-                //Thread.sleep(time*1000)
-            }
-            val newFunds = repository.getFunds()
             val goal = mutableListOf<String>()
-            for (i in newFunds) {
-                if (i.status== 1 && i.wave < -5 && i.weight > 0.5) {
-                    goal.add(i.name)
+            run loop@{
+                funds.forEach {
+                    if (it.status == 1) {
+                        val newIt = loadFund(applicationContext, it.id)
+                        if (newIt != null) {
+                            repository.updateFund(newIt)
+                            if (newIt.wave < -5 && newIt.weight > 0.5) {
+                                goal.add(newIt.name)
+                            }
+                        } else {
+                            return@loop
+                        }
+                    }
+                    //Thread.sleep(time*1000)
                 }
             }
+            /*for (f in funds) {
+                if (f.status == 1) {
+                    val newIt = loadFund(applicationContext, f.id)
+                    if (newIt != null) {
+                        repository.updateFund(newIt)
+                        if (newIt.wave < -5 && newIt.weight > 0.5) {
+                            goal.add(newIt.name)
+                        }
+                    } else {
+                        break
+                    }
+                }
+            }
+             */
             if (goal.isNotEmpty()) {
                 notice("Funds less than -5%", goal.joinToString(), applicationContext)
             }

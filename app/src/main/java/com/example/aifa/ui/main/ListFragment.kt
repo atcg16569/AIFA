@@ -38,7 +38,7 @@ class ListFragment : Fragment() {
         val adapter = FundAdapter()
         binding.list.adapter = adapter
         binding.list.layoutManager = LinearLayoutManager(context)
-        listViewModel.fundList.observe(viewLifecycleOwner, Observer { funds ->
+        listViewModel.fundList.observe(viewLifecycleOwner, { funds ->
             funds.let { _ ->
                 adapter.funds = funds//adapter.setFunds(funds)
                 adapter.notifyDataSetChanged()
@@ -65,8 +65,8 @@ class ListFragment : Fragment() {
         val touchHelper = ItemTouchHelper(helper)
         touchHelper.attachToRecyclerView(binding.list)
         // refresh UI for updatetime
-        binding.update.text = PreferenceManager.getDefaultSharedPreferences(this.context)
-            .getString("update", "UpdateTime")
+        val pref=PreferenceManager.getDefaultSharedPreferences(context)
+        binding.update.text =pref.getString("update", "UpdateTime")+"\n"+pref.getString("exception","")
         binding.executePendingBindings()
         return binding.root
     }
