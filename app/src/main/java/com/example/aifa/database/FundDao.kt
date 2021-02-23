@@ -25,13 +25,4 @@ interface FundDao {
     @Delete
     fun removeFund(fund: Fund)
 
-    /*@Query("select * from out")
-    fun getLiveOut(): LiveData<Out>
-
-    @Insert(entity = Out::class)
-    fun addOut(out: Out)
-
-    @Update(entity = Out::class)
-    fun updateOut(out: Out)
-     */
 }

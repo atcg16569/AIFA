@@ -5,6 +5,5 @@ import com.example.aifa.Repository
 
 class SetViewModel: ViewModel() {
     private val repository = Repository.get()
-    val abs=repository.getSumWave()
     val liveFunds=repository.getLiveFunds()
 }

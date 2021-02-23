@@ -15,14 +15,6 @@ data class Fund(
     val wave: Double,
     val past: Float,
     val present: Float,
-    val weight: Float
-)
-
-//@Entity
-data class Out(
-    @PrimaryKey val fID:String,
-    val part: Double,
-    val factor: Double,
-    val invest: Double,
-    val everyday: Double
+    val weight: Float,
+    var status:Int = 1
 )

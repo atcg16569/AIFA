@@ -16,14 +16,16 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) : Wor
             val repository = Repository.get()
             val funds = repository.getFunds()
             funds.forEach {
-                val newIt = fund(it.id)
-                repository.updateFund(newIt)
+                if (it.status==1){
+                    val newIt = fund(it.id)
+                    repository.updateFund(newIt)
+                }
                 //Thread.sleep(time*1000)
             }
             val newFunds = repository.getFunds()
             val goal = mutableListOf<String>()
             for (i in newFunds) {
-                if (i.wave < -5 && i.weight > 0.5) {
+                if (i.status== 1 && i.wave < -5 && i.weight > 0.5) {
                     goal.add(i.name)
                 }
             }

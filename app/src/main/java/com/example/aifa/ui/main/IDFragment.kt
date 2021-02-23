@@ -18,7 +18,7 @@ class IDFragment : DialogFragment() {
         val inflater = requireActivity().layoutInflater
         val view = inflater.inflate(R.layout.fragment_id, null)
         builder.setView(view)
-            .setPositiveButton("SAVE", DialogInterface.OnClickListener() { dialog, which ->
+            .setPositiveButton("SAVE") { _, _ ->
                 val id = view.findViewById<EditText>(R.id.ID).text.toString()
                 if (id.length != 6) {
                     Toast.makeText(context, "id.length must equal to 6", Toast.LENGTH_SHORT)
@@ -35,7 +35,7 @@ class IDFragment : DialogFragment() {
                                 ).show()
                             } else {
                                 class FundAsync : AsyncTask<String, Unit, Unit>() {
-                                    override fun doInBackground(vararg params: String) :Unit{
+                                    override fun doInBackground(vararg params: String) {
                                         repository.addFund(fund(params[0]))
                                     }
                                 }
@@ -45,7 +45,6 @@ class IDFragment : DialogFragment() {
                     )
                 }
             }
-            )
         return builder.create()
     }
 }

@@ -6,17 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.preference.PreferenceManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
 import com.example.aifa.NotificationWorker
 
 import com.example.aifa.R
 import com.example.aifa.databinding.FragmentSetBinding
-import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
 
 // TODO: Rename parameter arguments, choose names that match
@@ -46,52 +43,11 @@ class SetFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        setViewModel = ViewModelProviders.of(this).get(SetViewModel::class.java)
+        setViewModel = ViewModelProvider(this).get(SetViewModel::class.java)
         val binding: FragmentSetBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_set, container, false)
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        val inputs = mapOf(
-            "favor" to binding.favor,
-            "period" to binding.period,
-            "property" to binding.property,
-            "money" to binding.money
-        )
-        val set = mutableMapOf<String, String>()
-        inputs.forEach { (name, edit) ->
-            edit.doAfterTextChanged {
-                set.put(name, edit.text.toString())
-            }
-        }
-        binding.save.setOnClickListener {
-            set.forEach { (name, value) ->
-                val editor = pref.edit()
-                if (pref.getString(name, "") != "") {
-                    editor.remove(name)
-                }
-                editor.putString(name, value).apply()
-            }
-            //保存计算结果到数据库
-        }
-        binding.favor.hint = pref.getString("favor", "")
-        binding.period.hint = pref.getString("period", "")
-        binding.property.hint = pref.getString("property", "")
-        binding.money.hint = pref.getString("money", "")
-        val dec = DecimalFormat("0.00")
-        setViewModel.abs.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                binding.absolute.text = dec.format(it)
-                val editor = pref.edit()
-                if (pref.getFloat("absolute", 0F) != 0F) {
-                    editor.remove("absolute")
-                }
-                editor.putFloat("absolute", it).apply()
-            } else {
-                binding.absolute.text = "no fund to sum"
-            }
-        })
-        binding.bond.text = dec.format(pref.getFloat("bond", 0f))
         val manager = WorkManager.getInstance(requireContext())
         setViewModel.liveFunds.observe(viewLifecycleOwner, Observer {
             if (it.isEmpty()) {
@@ -107,7 +63,7 @@ class SetFragment : Fragment() {
                     })
             }
         })
-        binding.workButton.setOnClickListener { buttonView ->
+        binding.workButton.setOnClickListener {
             if (binding.workButton.text == "Schedule" || binding.workButton.text == "CANCELLED") {
                 val network =
                     Constraints.Builder()

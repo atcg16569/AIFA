@@ -84,7 +84,7 @@ fun fund(id: String): Fund {
     )
 }
 
-fun thing(
+/*fun thing(
     urls: Map<String, String>,
     selectors: Map<String, Map<String, String>>,
     delay: IntArray
@@ -115,3 +115,4 @@ fun thing(
     }
     return pages
 }
+*/
