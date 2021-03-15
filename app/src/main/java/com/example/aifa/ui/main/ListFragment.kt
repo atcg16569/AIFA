@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -30,7 +29,7 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         //listViewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
-        listViewModel=ViewModelProvider(this).get(ListViewModel::class.java)
+        listViewModel = ViewModelProvider(this).get(ListViewModel::class.java)
         val binding: FragmentListBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_list, container, false
         )
@@ -65,8 +64,9 @@ class ListFragment : Fragment() {
         val touchHelper = ItemTouchHelper(helper)
         touchHelper.attachToRecyclerView(binding.list)
         // refresh UI for updatetime
-        val pref=PreferenceManager.getDefaultSharedPreferences(context)
-        binding.update.text =pref.getString("update", "UpdateTime")+"\n"+pref.getString("exception","")
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        binding.update.text =
+            pref.getString("update", "UpdateTime") + "\n" + pref.getString("exception", "")
         binding.executePendingBindings()
         return binding.root
     }

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
 import com.example.aifa.NotificationWorker
@@ -47,22 +46,23 @@ class SetFragment : Fragment() {
         val binding: FragmentSetBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_set, container, false)
         val manager = WorkManager.getInstance(requireContext())
+        val wButton=binding.workButton
         setViewModel.liveFunds.observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
-                binding.workButton.text = "Empty"
+                wButton.text = "Empty"
             } else {
                 manager.getWorkInfosForUniqueWorkLiveData("fund")
                     .observe(viewLifecycleOwner, { workInfo ->
                         if (workInfo.size == 0) {
-                            binding.workButton.text = "Schedule"
+                            wButton.text = "Schedule"
                         } else {
-                            binding.workButton.text = workInfo[0].state.toString()
+                            wButton.text = workInfo[0].state.toString()
                         }
                     })
             }
         })
-        binding.workButton.setOnClickListener {
-            if (binding.workButton.text == "Schedule" || binding.workButton.text == "CANCELLED") {
+        wButton.setOnClickListener {
+            if (wButton.text == "Schedule" || wButton.text == "CANCELLED") {
                 val network =
                     Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.UNMETERED)
@@ -84,7 +84,7 @@ class SetFragment : Fragment() {
                 //binding.toggleButton.isChecked = true
                 Toast.makeText(context, "Enqueue worker", Toast.LENGTH_SHORT)
                     .show()
-            } else if (binding.workButton.text == "Empty") {
+            } else if (wButton.text == "Empty") {
                 Toast.makeText(context, "Please add fund to list", Toast.LENGTH_SHORT)
                     .show()
             } else {

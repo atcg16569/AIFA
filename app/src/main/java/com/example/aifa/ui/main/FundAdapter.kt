@@ -1,5 +1,6 @@
 package com.example.aifa.ui.main
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,10 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
             itemBinding.name.text = fund.name
             itemBinding.wave.text = dec.format(fund.wave).toString()
             itemBinding.weight.text = dec.format(fund.weight).toString()
-            val switch=itemBinding.switch1
+            if (fund.wave < -5 && fund.weight > 0.5) {
+                itemBinding.value.setBackgroundColor(Color.parseColor("#55bb8a"))
+            }
+            val switch = itemBinding.switch1
             if (fund.status == 0) {
                 switch.text = "pause"
                 switch.isChecked = false
@@ -59,6 +63,7 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
         val binding: FundItemBinding = FundItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
+
             false
         )
         return FundHolder(binding)
