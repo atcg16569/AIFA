@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.aifa.R
+import com.example.aifa.database.Fund
 import com.example.aifa.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
@@ -39,8 +42,9 @@ class ListFragment : Fragment() {
         binding.list.layoutManager = LinearLayoutManager(context)
         listViewModel.fundList.observe(viewLifecycleOwner, { funds ->
             funds.let { _ ->
-                adapter.funds = funds//adapter.setFunds(funds)
-                adapter.notifyDataSetChanged()
+                adapter.funds = funds
+                adapter.notifyItemRangeChanged(0, adapter.itemCount, funds)
+                adapter.listViewModel = listViewModel
             }
         })
         val helper = object : ItemTouchHelper.SimpleCallback(
@@ -64,9 +68,6 @@ class ListFragment : Fragment() {
         val touchHelper = ItemTouchHelper(helper)
         touchHelper.attachToRecyclerView(binding.list)
         // refresh UI for updatetime
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        binding.update.text =
-            pref.getString("update", "UpdateTime") + "\n" + pref.getString("exception", "")
         binding.executePendingBindings()
         return binding.root
     }

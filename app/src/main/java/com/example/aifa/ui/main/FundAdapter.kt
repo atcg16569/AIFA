@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.example.aifa.Repository
 import com.example.aifa.database.Fund
 import com.example.aifa.databinding.FundItemBinding
 import java.text.DecimalFormat
@@ -16,7 +15,7 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
 
     inner class FundHolder(private val itemBinding: FundItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(fund: Fund) {
+        fun bind(fund: Fund,listViewModel: ListViewModel) {
             val dec = DecimalFormat("0.00")
             itemBinding.name.text = fund.name
             itemBinding.wave.text = dec.format(fund.wave).toString()
@@ -32,7 +31,7 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
                 switch.text = "start"
                 switch.isChecked = true
             }
-            itemBinding.root.setOnClickListener {
+            itemBinding.table.setOnClickListener {
                 if (switch.isVisible) {
                     switch.visibility = View.GONE
                 } else {
@@ -42,10 +41,12 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
             switch.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     fund.status = 1
-                    Repository.get().updateFund(fund)
+                    notifyItemChanged(adapterPosition,fund)
+                    listViewModel.updateFund(fund)
                 } else {
                     fund.status = 0
-                    Repository.get().updateFund(fund)
+                    notifyItemChanged(adapterPosition,fund)
+                    listViewModel.updateFund(fund)
                 }
             }
         }
@@ -53,11 +54,13 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
 
 
     var funds = listOf<Fund>()
+    lateinit var listViewModel:ListViewModel
     /*internal fun setFunds(funds: List<Fund>) {
         this.funds = funds
         notifyDataSetChanged()
     }
      */
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FundHolder {
         val binding: FundItemBinding = FundItemBinding.inflate(
@@ -70,8 +73,7 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
     }
 
     override fun onBindViewHolder(holder: FundHolder, position: Int) {
-        val fund = funds[position]
-        holder.bind(fund)
+        holder.bind(funds[position],listViewModel)
     }
 
     override fun getItemCount() = funds.size

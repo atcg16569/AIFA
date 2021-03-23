@@ -16,5 +16,5 @@ data class Fund(
     val past: Float,
     val present: Float,
     val weight: Float,
-    var status:Int = 1
+    var status:Int
 )

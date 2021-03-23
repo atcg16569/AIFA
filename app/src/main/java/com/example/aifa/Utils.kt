@@ -33,59 +33,6 @@ fun notice(title: String, text: String, context: Context) {
     NotificationManagerCompat.from(context).notify(1024, builder)
 }
 
-/*fun fund(id: String): Fund {
-    val doc = Jsoup.connect("http://fund.eastmoney.com/$id.html")
-        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0")
-        .get()
-    val name = doc.select(".funCur-FundName").text()
-    val month1 =
-        doc.select(".dataItem01>dd:nth-child(3)>span:nth-child(2)").text().split("%")[0].toFloat()
-    val month3 =
-        doc.select(".dataItem02>dd:nth-child(3)>span:nth-child(2)").text().split("%")[0].toFloat()
-    val month6 =
-        doc.select(".dataItem03>dd:nth-child(3)>span:nth-child(2)").text().split("%")[0].toFloat()
-    val wave = month1 + 2.0 / 3.0 * month3 + 0.5 * month6
-    // get NAV
-    var page = 1
-    val list = mutableListOf<Float>()
-    while (page <= 6) {
-        val vurl =
-            "http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=$id&page=$page&per=30"
-        val time = (5..30).random().toLong()
-        lateinit var vdoc: Document
-        GlobalScope.launch {
-            delay(time * 1000)
-            vdoc = Jsoup.connect(vurl)
-                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0")
-                .get() //?: throw IOException() TODO:handle Exception
-            val nav = vdoc.select(".w782 > tbody:nth-child(2) > tr > td:nth-child(2)")
-            for (e in nav) {
-                list.add(e.text().toFloat())
-            }
-        }
-        runBlocking { delay((time + 1) * 1000) }
-        page += 1
-    }
-    val slist = list.sorted()
-    val past = slist.last() - slist.first()
-    val present = slist.last() - list.first()
-    val weight = present / past
-    return Fund(
-        id,
-        name,
-        month1,
-        month3,
-        month6,
-        list.first(),
-        slist.last(),
-        slist.first(),
-        wave,
-        past,
-        present,
-        weight
-    )
-}
- */
 fun loadFund(context: Context,id: String): Fund? {
     //var waveUrl: String
     //var valueUrl: String
@@ -142,7 +89,7 @@ fun loadFund(context: Context,id: String): Fund? {
             wave,
             past,
             present,
-            weight
+            weight,1
         )
     } catch (e:Exception) {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)

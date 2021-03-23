@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.work.*
 import com.example.aifa.NotificationWorker
 
@@ -93,6 +94,9 @@ class SetFragment : Fragment() {
                     .show()
             }
         }
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        binding.update.text =
+            pref.getString("update", "UpdateTime") + "\n" + pref.getString("exception", "")
         binding.executePendingBindings()
         return binding.root
     }

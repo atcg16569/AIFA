@@ -8,4 +8,5 @@ class ListViewModel : ViewModel() {
     private val repository = Repository.get()
     val fundList = repository.getLiveFunds()
     fun removeFund(fund: Fund)=repository.removeFund(fund)
+    fun updateFund(fund: Fund)=repository.updateFund(fund)
 }

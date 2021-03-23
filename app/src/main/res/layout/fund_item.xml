@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-    </data>
+    <data></data>
 
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:stretchColumns="*">
 
-
-
-            <TextView
-                android:id="@+id/name"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
 
 
         <TableRow>
 
             <TextView
-                android:text="波动"
-                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="波动" />
 
             <TextView
-                android:text="当前跌幅/最大跌幅"
-                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="当前跌幅/最大跌幅" />
 
         </TableRow>
 
@@ -38,22 +35,22 @@
 
             <TextView
                 android:id="@+id/wave"
-                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/weight"
-                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:gravity="center" />
         </TableRow>
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch1"
-            android:visibility="gone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
     </TableLayout>
 
 </layout>
