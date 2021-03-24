@@ -31,7 +31,6 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //listViewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
         listViewModel = ViewModelProvider(this).get(ListViewModel::class.java)
         val binding: FragmentListBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_list, container, false
@@ -45,6 +44,10 @@ class ListFragment : Fragment() {
             if (adapter.funds.isEmpty()){
                 adapter.funds.addAll(funds)
                 adapter.notifyDataSetChanged()
+            }
+            if(funds.size-adapter.funds.size==1){
+                adapter.funds.add(funds.last())
+                adapter.notifyItemInserted(adapter.itemCount)
             }
         })
         val helper = object : ItemTouchHelper.SimpleCallback(

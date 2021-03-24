@@ -35,8 +35,7 @@ class IDFragment : DialogFragment() {
                             } else {
                                 class FundAsync : AsyncTask<String, Unit, Unit>() {
                                     override fun doInBackground(vararg params: String) {
-                                        val result =
-                                            loadFund(requireContext(), params[0])
+                                        val result = loadFund(context, params[0])
                                         if (result != null) {
                                             repository.addFund(result)
                                         } else {

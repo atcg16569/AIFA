@@ -8,10 +8,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import com.example.aifa.database.Fund
 import kotlinx.coroutines.*
-import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.select.Elements
 
 fun notice(title: String, text: String, context: Context) {
     val CHANNEL_ID = "FUND"
@@ -33,7 +31,7 @@ fun notice(title: String, text: String, context: Context) {
     NotificationManagerCompat.from(context).notify(1024, builder)
 }
 
-fun loadFund(context: Context,id: String): Fund? {
+fun loadFund(context: Context?, id: String): Fund? {
     //var waveUrl: String
     //var valueUrl: String
     //todo:检测url可访问，页面结构变化
