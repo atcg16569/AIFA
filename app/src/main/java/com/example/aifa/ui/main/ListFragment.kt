@@ -38,13 +38,13 @@ class ListFragment : Fragment() {
         )
         //binding.fundlist = listViewModel
         val adapter = FundAdapter()
+        adapter.listViewModel = listViewModel
         binding.list.adapter = adapter
         binding.list.layoutManager = LinearLayoutManager(context)
         listViewModel.fundList.observe(viewLifecycleOwner, { funds ->
-            funds.let { _ ->
-                adapter.funds = funds
-                adapter.notifyItemRangeChanged(0, adapter.itemCount, funds)
-                adapter.listViewModel = listViewModel
+            if (adapter.funds.isEmpty()){
+                adapter.funds.addAll(funds)
+                adapter.notifyDataSetChanged()
             }
         })
         val helper = object : ItemTouchHelper.SimpleCallback(
@@ -63,6 +63,8 @@ class ListFragment : Fragment() {
                 val fund = adapter.getFundAtPosition(viewHolder.adapterPosition)
                 Toast.makeText(context, "delete ${fund.name}", Toast.LENGTH_SHORT).show()
                 listViewModel.removeFund(fund)
+                adapter.funds.remove(fund)
+                adapter.notifyItemRemoved(viewHolder.adapterPosition)
             }
         }
         val touchHelper = ItemTouchHelper(helper)

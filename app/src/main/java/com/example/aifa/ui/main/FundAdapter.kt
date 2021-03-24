@@ -53,7 +53,7 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
     }
 
 
-    var funds = listOf<Fund>()
+    val funds = mutableListOf<Fund>()
     lateinit var listViewModel:ListViewModel
     /*internal fun setFunds(funds: List<Fund>) {
         this.funds = funds
@@ -66,7 +66,6 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
         val binding: FundItemBinding = FundItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
-
             false
         )
         return FundHolder(binding)
