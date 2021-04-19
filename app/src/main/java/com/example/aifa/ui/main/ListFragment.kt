@@ -7,16 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.example.aifa.R
-import com.example.aifa.database.Fund
 import com.example.aifa.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
@@ -43,7 +38,7 @@ class ListFragment : Fragment() {
         listViewModel.fundList.observe(viewLifecycleOwner, { funds ->
             if (adapter.funds.isEmpty()){
                 adapter.funds.addAll(funds)
-                adapter.notifyDataSetChanged()
+                adapter.notifyItemRangeInserted(0,adapter.itemCount)
             }
             if(funds.size-adapter.funds.size==1){
                 adapter.funds.add(funds.last())
@@ -72,7 +67,6 @@ class ListFragment : Fragment() {
         }
         val touchHelper = ItemTouchHelper(helper)
         touchHelper.attachToRecyclerView(binding.list)
-        // refresh UI for updatetime
         binding.executePendingBindings()
         return binding.root
     }

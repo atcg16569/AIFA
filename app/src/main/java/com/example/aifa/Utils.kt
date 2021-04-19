@@ -13,14 +13,12 @@ import org.jsoup.nodes.Document
 
 fun notice(title: String, text: String, context: Context) {
     val CHANNEL_ID = "FUND"
-    //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
     val name = "send"
     val importance = NotificationManager.IMPORTANCE_DEFAULT
     val channel = NotificationChannel(CHANNEL_ID, name, importance)
     val notificationManager =
         context.getSystemService(NotificationManager::class.java)
     notificationManager?.createNotificationChannel(channel)
-    //}
     val builder = NotificationCompat
         .Builder(context, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_launcher_background)
@@ -32,8 +30,6 @@ fun notice(title: String, text: String, context: Context) {
 }
 
 fun loadFund(context: Context?, id: String): Fund? {
-    //var waveUrl: String
-    //var valueUrl: String
     //todo:检测url可访问，页面结构变化
     try {
         val doc = Jsoup.connect("http://fund.eastmoney.com/$id.html")
@@ -72,9 +68,14 @@ fun loadFund(context: Context?, id: String): Fund? {
             page += 1
         }
         val slist = list.sorted()
-        val past = slist.last() - slist.first()
-        val present = slist.last() - list.first()
+        val max = slist.last()
+        val min = slist.first()
+        val now = list.first()
+        val past = max - min
+        val present = max - now
         val weight = present / past
+        val pre_income = present / now
+        val pre_loss = (min - now) / now
         return Fund(
             id,
             name,
@@ -87,12 +88,15 @@ fun loadFund(context: Context?, id: String): Fund? {
             wave,
             past,
             present,
-            weight,1
+            weight,
+            pre_income,
+            pre_loss,
+            1
         )
-    } catch (e:Exception) {
+    } catch (e: Exception) {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = pref.edit()
-        editor.putString("loadFund exception",e.message).apply()
+        editor.putString("loadFund exception", e.message).apply()
         return null
     }
 

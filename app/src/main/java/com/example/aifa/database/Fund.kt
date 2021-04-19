@@ -16,5 +16,7 @@ data class Fund(
     val past: Float,
     val present: Float,
     val weight: Float,
+    val pre_income:Float,
+    val pre_loss:Float,
     var status:Int
 )

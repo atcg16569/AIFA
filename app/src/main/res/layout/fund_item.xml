@@ -29,6 +29,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="当前跌幅/最大跌幅" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="预计收益" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="预计亏损" />
 
         </TableRow>
 
@@ -42,6 +52,16 @@
 
             <TextView
                 android:id="@+id/weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+            <TextView
+                android:id="@+id/income"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+            <TextView
+                android:id="@+id/loss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center" />

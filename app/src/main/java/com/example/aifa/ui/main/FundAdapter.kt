@@ -15,11 +15,13 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
 
     inner class FundHolder(private val itemBinding: FundItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(fund: Fund,listViewModel: ListViewModel) {
+        fun bind(fund: Fund, listViewModel: ListViewModel) {
             val dec = DecimalFormat("0.00")
             itemBinding.name.text = fund.name
             itemBinding.wave.text = dec.format(fund.wave).toString()
             itemBinding.weight.text = dec.format(fund.weight).toString()
+            itemBinding.income.text = dec.format(fund.pre_income).toString()
+            itemBinding.loss.text = dec.format(fund.pre_loss).toString()
             if (fund.wave < -5 && fund.weight > 0.5) {
                 itemBinding.value.setBackgroundColor(Color.parseColor("#55bb8a"))
             }
@@ -41,11 +43,11 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
             switch.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     fund.status = 1
-                    notifyItemChanged(adapterPosition,fund)
+                    notifyItemChanged(adapterPosition, fund)
                     listViewModel.updateFund(fund)
                 } else {
                     fund.status = 0
-                    notifyItemChanged(adapterPosition,fund)
+                    notifyItemChanged(adapterPosition, fund)
                     listViewModel.updateFund(fund)
                 }
             }
@@ -54,13 +56,12 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
 
 
     val funds = mutableListOf<Fund>()
-    lateinit var listViewModel:ListViewModel
+    lateinit var listViewModel: ListViewModel
     /*internal fun setFunds(funds: List<Fund>) {
         this.funds = funds
         notifyDataSetChanged()
     }
      */
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FundHolder {
         val binding: FundItemBinding = FundItemBinding.inflate(
@@ -72,7 +73,7 @@ class FundAdapter : RecyclerView.Adapter<FundAdapter.FundHolder>() {
     }
 
     override fun onBindViewHolder(holder: FundHolder, position: Int) {
-        holder.bind(funds[position],listViewModel)
+        holder.bind(funds[position], listViewModel)
     }
 
     override fun getItemCount() = funds.size
