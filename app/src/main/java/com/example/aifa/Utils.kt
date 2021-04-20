@@ -71,23 +71,13 @@ fun loadFund(context: Context?, id: String): Fund? {
         val max = slist.last()
         val min = slist.first()
         val now = list.first()
-        val past = max - min
-        val present = max - now
-        val weight = present / past
-        val pre_income = present / now
+        val weight = (max - now) / (max - min)
+        val pre_income = (max - now) / now
         val pre_loss = (min - now) / now
         return Fund(
             id,
             name,
-            month1,
-            month3,
-            month6,
-            list.first(),
-            slist.last(),
-            slist.first(),
             wave,
-            past,
-            present,
             weight,
             pre_income,
             pre_loss,
